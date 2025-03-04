@@ -1,5 +1,5 @@
 /*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
+Copyright © 2025 CARLOS EDUARDO carlosermiranda.dev@gmail.com
 */
 package cmd
 

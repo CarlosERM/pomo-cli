@@ -1,5 +1,5 @@
 /*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
+Copyright © 2025 CARLOS MIRANDA carlosermiranda.dev@gmail.com
 */
 package cmd
 
@@ -131,6 +131,5 @@ func init() {
 	// is called directly, e.g.:
 	// listCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
-	listCmd.Flags().BoolVarP(&done, "done", "d", false, "List only done tasks.")
 	listCmd.Flags().BoolVarP(&all, "all", "a", false, "List all tasks.")
 }

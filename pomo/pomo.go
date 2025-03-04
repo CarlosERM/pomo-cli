@@ -1,3 +1,6 @@
+/*
+Copyright © 2025 CARLOS MIRANDA carlosermiranda.dev@gmail.com
+*/
 package pomo
 
 import (

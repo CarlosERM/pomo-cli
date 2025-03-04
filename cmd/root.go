@@ -1,5 +1,5 @@
 /*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
+Copyright © 2025 CARLOS MIRANDA carlosermiranda.dev@gmail.com
 */
 package cmd
 
@@ -62,4 +62,5 @@ func init() {
 
 	rootCmd.PersistentFlags().IntVarP(&priority, "priority", "p", 2, "Priority: 1, 2, 3")
 	rootCmd.PersistentFlags().StringVar(&dataFile, "datafile", home+"/pomo/pomo-db.json", "file where all tasks are stored")
+	rootCmd.PersistentFlags().BoolVarP(&done, "done", "d", false, "List only done tasks.")
 }
