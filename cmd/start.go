@@ -146,6 +146,11 @@ func startPomo(cmd *cobra.Command, args []string) {
 
 	app := tview.NewApplication()
 
+	paddingView := tview.NewTextView().
+		SetText("").
+		SetTextAlign(tview.AlignCenter).
+		SetDynamicColors(true).
+		SetTextColor(tcell.ColorIndianRed)
 	titleView := tview.NewTextView().
 		SetText(titleRender).
 		SetTextAlign(tview.AlignCenter).
@@ -169,10 +174,11 @@ func startPomo(cmd *cobra.Command, args []string) {
 	go drawPomo(app, textView, pomoCountView, pomodoroQtd, pomoTask, isFound, idFound, pomoTasks)
 
 	flex := tview.NewFlex().SetDirection(tview.FlexRow).
+		AddItem(paddingView, 0, 2, true).
 		AddItem(titleView, 0, 1, true).
 		AddItem(taskDescriptionView, 0, 1, true).
 		AddItem(pomoCountView, 0, 1, true).
-		AddItem(textView, 0, 5, true)
+		AddItem(textView, 0, 3, true)
 
 	if err := app.SetRoot(flex, true).Run(); err != nil {
 		panic(err)
