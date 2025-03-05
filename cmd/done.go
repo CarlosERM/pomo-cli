@@ -33,14 +33,16 @@ func doneTask(cmd *cobra.Command, args []string) {
 
 // doneCmd represents the done command
 var doneCmd = &cobra.Command{
-	Use:   "done",
-	Short: "Mark a task as completed.",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Use:   "done <task_id|task_description>",
+	Short: "Marks a task as completed based on ID or description.",
+	Long: `The 'done' command allows you to mark a task as completed by specifying either its ID or description.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+Examples:
+  # Mark a task as completed using an ID
+  pomo-cli done 1
+
+  # Mark a task as completed using a description
+  pomo-cli done "Pipoca Maluca"`,
 	Run: doneTask,
 }
 

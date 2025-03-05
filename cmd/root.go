@@ -62,5 +62,5 @@ func init() {
 
 	rootCmd.PersistentFlags().IntVarP(&priority, "priority", "p", 2, "Priority: 1, 2, 3")
 	rootCmd.PersistentFlags().StringVar(&dataFile, "datafile", home+"/pomo/pomo-db.json", "file where all tasks are stored")
-	rootCmd.PersistentFlags().BoolVarP(&done, "done", "d", false, "List only done tasks.")
+	rootCmd.PersistentFlags().BoolVar(&done, "done", false, "List only done tasks.")
 }

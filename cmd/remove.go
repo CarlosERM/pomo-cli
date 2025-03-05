@@ -37,14 +37,17 @@ func removeTask(cmd *cobra.Command, args []string) {
 
 // removeCmd represents the remove command
 var removeCmd = &cobra.Command{
-	Use:   "remove",
-	Short: "Remove a Task.",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Use:   "remove <task_id|task_description> [additional_task_ids_or_descriptions...]",
+	Short: "Removes a task or multiple tasks based on ID or description",
+	Long: `The 'remove' command allows you to remove one or more tasks by specifying either 
+their ID or description. You can remove tasks by their exact name or ID.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+Examples:
+  # Remove a task by ID
+  pomo-cli remove 1
+
+  # Remove tasks by description
+  pomo-cli remove Pipoca "Pipoca Maluca"`,
 	Run: removeTask,
 }
 

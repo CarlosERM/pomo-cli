@@ -149,8 +149,13 @@ func startPomo(cmd *cobra.Command, args []string) {
 	titleView := tview.NewTextView().
 		SetText(titleRender).
 		SetTextAlign(tview.AlignCenter).
-		SetDynamicColors(true).SetTextColor(tcell.ColorIndianRed)
-
+		SetDynamicColors(true).
+		SetTextColor(tcell.ColorIndianRed)
+	taskDescriptionView := tview.NewTextView().
+		SetText("\n" + pomoTask.Description).
+		SetTextAlign(tview.AlignCenter).
+		SetDynamicColors(true).
+		SetTextColor(tcell.ColorIndianRed)
 	pomoCountView := tview.NewTextView().
 		SetText("").
 		SetTextAlign(tview.AlignCenter).
@@ -165,8 +170,9 @@ func startPomo(cmd *cobra.Command, args []string) {
 
 	flex := tview.NewFlex().SetDirection(tview.FlexRow).
 		AddItem(titleView, 0, 1, true).
+		AddItem(taskDescriptionView, 0, 1, true).
 		AddItem(pomoCountView, 0, 1, true).
-		AddItem(textView, 0, 1, true)
+		AddItem(textView, 0, 5, true)
 
 	if err := app.SetRoot(flex, true).Run(); err != nil {
 		panic(err)
@@ -176,14 +182,23 @@ func startPomo(cmd *cobra.Command, args []string) {
 
 // startCmd represents the start command
 var startCmd = &cobra.Command{
-	Use:   "start",
-	Short: "Starts a pomodoro.",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Use:   "start <number_of_pomodoros>",
+	Short: "Starts a Pomodoro session for a specified task or creates a new one",
+	Long: `The 'start' command begins a Pomodoro session (default: 25 minutes each) for a specified task. 
+You can either define an existing task or create a new one using -d or --description.
+If no description is provided, a random task name is generated.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+Usage:
+  pomo-cli start <number_of_pomodoros> [flags]
+
+Examples:
+  # Start a Pomodoro session with 2 Pomodoros
+  pomo-cli start 2
+
+  # Start a Pomodoro session for a specific task (or create it if it doesn't exist).
+  pomo-cli start 1 -d="Pipoca Maluca"
+  # Start a Pomodoro session for a specific task using it ID.
+  pomo-cli start 1 -d="1"`,
 	Run: startPomo,
 }
 

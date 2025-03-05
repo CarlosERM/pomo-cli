@@ -32,14 +32,21 @@ func addTask(cmd *cobra.Command, args []string) {
 
 // addCmd represents the add command
 var addCmd = &cobra.Command{
-	Use:   "add",
-	Short: "Adds a new task.",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Use:   "add <task_name> [additional_task_names...]",
+	Short: "Adds a new task or multiple ones",
+	Long: `The 'add' command allows you to add one or more tasks.
+	
+Examples:
+  # Add a single task
+  pomo-cli add Pipoca
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+  # Add multiple tasks
+  pomo-cli add Pipoca Maluca
+
+  # Add a task with multiple words
+  pomo-cli add "Pipoca Maluca"
+
+If a task contains spaces, wrap it in double quotes.`,
 	Run: addTask,
 }
 

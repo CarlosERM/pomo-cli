@@ -13,50 +13,56 @@ import (
 	"github.com/spf13/cobra"
 )
 
+func searchTasks(cmd *cobra.Command, args []string) {
+	pomoTasks, err := pomo.ReadTasks(dataFile)
+	var searchedItems []pomo.TaskPomo
+
+	if err != nil {
+		fmt.Println("Failed to read datafile!")
+		return
+	}
+
+	for _, a := range args {
+		for i, task := range pomoTasks {
+			if strings.Contains(task.Description, a) || strings.Contains(task.Id, a) {
+				searchedItems = append(searchedItems, pomoTasks[i])
+			}
+		}
+	}
+
+	w := tabwriter.NewWriter(os.Stdout, 4, 1, 5, ' ', tabwriter.StripEscape)
+	fmt.Fprintf(w, "ID\tDescription\tPriority\tPomodoro\tTimeSpent\tDone\n")
+
+	for _, task := range searchedItems {
+		doneMessage := ""
+
+		if task.Done {
+			doneMessage = "X"
+		}
+
+		if task.Done == done {
+			fmt.Fprintf(w, "%s\t%s\t%d\t%d\t%d\t%s\n", task.Id, task.Description, task.Priority, task.Pomodoro, task.TimeSpent, doneMessage)
+		}
+	}
+	w.Flush()
+}
+
 // searchCmd represents the search command
 var searchCmd = &cobra.Command{
-	Use:   "search",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Use:   "search <task_id|task_description>",
+	Short: "Search for tasks based on ID or description",
+	Long: `The 'search' command allows you to find specific tasks either by their ID or a part of their description.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		pomoTasks, err := pomo.ReadTasks(dataFile)
-		var searchedItems []pomo.TaskPomo
+Examples:
+  # Search for a task by ID
+  pomo-cli search 2
 
-		if err != nil {
-			fmt.Println("Failed to read datafile!")
-			return
-		}
+  # Search for tasks containing the word "Pipoca"
+  pomo-cli search Pipoca
 
-		for _, a := range args {
-			for i, task := range pomoTasks {
-				if strings.Contains(task.Description, a) {
-					searchedItems = append(searchedItems, pomoTasks[i])
-				}
-			}
-		}
-
-		w := tabwriter.NewWriter(os.Stdout, 4, 1, 5, ' ', tabwriter.StripEscape)
-		fmt.Fprintf(w, "ID\tDescription\tPriority\tPomodoro\tTimeSpent\tDone\n")
-
-		for _, task := range searchedItems {
-			doneMessage := ""
-
-			if task.Done {
-				doneMessage = "X"
-			}
-
-			if task.Done == done {
-				fmt.Fprintf(w, "%s\t%s\t%d\t%d\t%d\t%s\n", task.Id, task.Description, task.Priority, task.Pomodoro, task.TimeSpent, doneMessage)
-			}
-		}
-		w.Flush()
-
-	},
+  # Search for tasks with an exact phrase
+  pomo-cli search "Pipoca Maluca"`,
+	Run: searchTasks,
 }
 
 func init() {
