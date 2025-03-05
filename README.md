@@ -17,7 +17,7 @@ git clone <repository-url>
 # Navigate to the project directory
 cd pomo-cli
 
-# Install dependencies (if applicable)
+# Compile it
 go build
 ```
 
