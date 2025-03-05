@@ -24,7 +24,7 @@ var taskDescription string
 func drawPomo(app *tview.Application, textView *tview.TextView, pomoCountView *tview.TextView, pomodoroQtd int, pomoTask pomo.TaskPomo, isFound bool, idFound int, pomoTasks []pomo.TaskPomo) {
 	ticker := time.Tick(1 * time.Millisecond)
 
-	durationPomo := 5 * time.Second
+	durationPomo := 25 * time.Minute
 
 	for i := 0; i < pomodoroQtd; i++ {
 		target := time.Now()
@@ -53,7 +53,7 @@ func drawPomo(app *tview.Application, textView *tview.TextView, pomoCountView *t
 			})
 		}
 
-		durationRest := 5 * time.Second
+		durationRest := 5 * time.Minute
 		target = time.Now()
 
 		for range ticker {
@@ -142,7 +142,7 @@ func startPomo(cmd *cobra.Command, args []string) {
 	}
 
 	// DRAW SCREEN
-	titleRender, _ := ascii.Render("PomoTask")
+	titleRender, _ := ascii.Render("PomoCLI")
 
 	app := tview.NewApplication()
 
@@ -187,9 +187,6 @@ var startCmd = &cobra.Command{
 	Long: `The 'start' command begins a Pomodoro session (default: 25 minutes each) for a specified task. 
 You can either define an existing task or create a new one using -d or --description.
 If no description is provided, a random task name is generated.
-
-Usage:
-  pomo-cli start <number_of_pomodoros> [flags]
 
 Examples:
   # Start a Pomodoro session with 2 Pomodoros

@@ -45,6 +45,24 @@ func listAllTasks(pomoTasks []pomo.TaskPomo) {
 
 			color := tcell.ColorWhite
 
+			if colNames.Field(c).Name == "TimeSpent" {
+				table.SetCell(r+1, c,
+					tview.NewTableCell(pomoTasks[r].FormattedTimeSpent()).
+						SetTextColor(color).
+						SetAlign(tview.AlignCenter))
+
+				continue
+			}
+
+			if colNames.Field(c).Name == "Done" {
+				table.SetCell(r+1, c,
+					tview.NewTableCell(pomoTasks[r].FormattedDone()).
+						SetTextColor(color).
+						SetAlign(tview.AlignCenter))
+
+				continue
+			}
+
 			table.SetCell(r+1, c,
 				tview.NewTableCell(strValue).
 					SetTextColor(color).
@@ -91,14 +109,9 @@ func listTasks(cmd *cobra.Command, args []string) {
 	}
 
 	for _, task := range pomoTasks {
-		doneMessage := ""
-
-		if task.Done {
-			doneMessage = "X"
-		}
 
 		if task.Done == done {
-			fmt.Fprintf(w, "%s\t%s\t%d\t%d\t%d\t%s\n", task.Id, task.Description, task.Priority, task.Pomodoro, task.TimeSpent, doneMessage)
+			fmt.Fprintf(w, "%s\t%s\t%d\t%d\t%s\t%s\n", task.Id, task.Description, task.Priority, task.Pomodoro, task.FormattedTimeSpent(), task.FormattedDone())
 		}
 	}
 

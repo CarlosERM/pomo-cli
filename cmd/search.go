@@ -34,15 +34,8 @@ func searchTasks(cmd *cobra.Command, args []string) {
 	fmt.Fprintf(w, "ID\tDescription\tPriority\tPomodoro\tTimeSpent\tDone\n")
 
 	for _, task := range searchedItems {
-		doneMessage := ""
 
-		if task.Done {
-			doneMessage = "X"
-		}
-
-		if task.Done == done {
-			fmt.Fprintf(w, "%s\t%s\t%d\t%d\t%d\t%s\n", task.Id, task.Description, task.Priority, task.Pomodoro, task.TimeSpent, doneMessage)
-		}
+		fmt.Fprintf(w, "%s\t%s\t%d\t%d\t%s\t%s\n", task.Id, task.Description, task.Priority, task.Pomodoro, task.FormattedTimeSpent(), task.FormattedDone())
 	}
 	w.Flush()
 }

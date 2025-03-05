@@ -5,6 +5,7 @@ package pomo
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 )
 
@@ -47,4 +48,22 @@ func ReadTasks(filename string) ([]TaskPomo, error) {
 	}
 
 	return tasksPomo, nil
+}
+
+func (t TaskPomo) FormattedTimeSpent() string {
+	hours := int(t.TimeSpent / 3600)
+	minutes := int((t.TimeSpent % 3600) / 60)
+
+	message := fmt.Sprintf("%2dh %2dm", hours, minutes)
+	return message
+}
+
+func (t TaskPomo) FormattedDone() string {
+	doneMessage := ""
+
+	if t.Done {
+		doneMessage = "X"
+	}
+
+	return doneMessage
 }

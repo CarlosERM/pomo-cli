@@ -17,6 +17,7 @@ func addTask(cmd *cobra.Command, args []string) {
 
 	if err != nil {
 		fmt.Println("Failed to read datafile!")
+		fmt.Println(err)
 		return
 	}
 

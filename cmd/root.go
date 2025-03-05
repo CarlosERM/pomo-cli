@@ -5,7 +5,9 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -34,9 +36,43 @@ func Execute() {
 }
 
 func initConfig() {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatalf("Failed to get home directory: %v", err)
+	}
+
+	appDir := filepath.Join(homeDir, ".pomo")
+	filePath := filepath.Join(appDir, "pomo-db.json")
+
+	// Ensure the directory exists
+	if err := os.MkdirAll(appDir, os.ModePerm); err != nil {
+		log.Fatalf("Failed to create directory: %v", err)
+	}
+
+	file, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+
+	if err != nil {
+		log.Fatalf("Failed to create file: %v", err)
+	}
+
+	defer file.Close()
+
+	fileInfo, err := os.Stat(filePath)
+
+	if err != nil {
+		log.Fatalf("Failed to get info from file: %v", err)
+	}
+
+	if fileInfo.Size() == 0 {
+		data := "[]"
+		if _, err := file.WriteString(data); err != nil {
+			log.Fatalf("Failed to write to file: %v", err)
+		}
+	}
+
+	viper.AddConfigPath("$HOME/.pomo/")
 	viper.SetConfigName("pomo-db")
 	viper.SetConfigType("json")
-	viper.AddConfigPath("$HOME/pomo/")
 	// viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err != nil {
@@ -61,6 +97,6 @@ func init() {
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
 	rootCmd.PersistentFlags().IntVarP(&priority, "priority", "p", 2, "Priority: 1, 2, 3")
-	rootCmd.PersistentFlags().StringVar(&dataFile, "datafile", home+"/pomo/pomo-db.json", "file where all tasks are stored")
+	rootCmd.PersistentFlags().StringVar(&dataFile, "datafile", home+"/.pomo/pomo-db.json", "file where all tasks are stored")
 	rootCmd.PersistentFlags().BoolVar(&done, "done", false, "List only done tasks.")
 }
